@@ -5,6 +5,11 @@ A convert date to wareki for elm program.
 
 ```elm
 > import Wareki
+> import Time
+
+> Wareki.toNengoFromPosix <| Time.millisToPosix 1599909981000
+Ok "令和" : Result String String
+
 > Wareki.toWarekiFromIsoString "2020-09-03" ]
 "令和2年9月3日" : String
 ```
