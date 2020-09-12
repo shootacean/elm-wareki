@@ -1,12 +1,12 @@
-module Wareki exposing (toWarekiFromIsoString)
+module Wareki exposing (toNengoFromPosix, toWarekiFromIsoString)
 
 {-| This library convert date-string to Wareki (japanese-era) in Elm.
 
 # Convert Functions
-@docs toWarekiFromIsoString
+@docs toNengoFromPosix, toWarekiFromIsoString
 -}
 
-import Time exposing (Month(..))
+import Time exposing (Posix, Month(..))
 import Date
 
 type alias Wareki =
@@ -30,6 +30,25 @@ warekiList =
     , { name = "大正", from = { year = 1912, month = Jul, day = 30 }, to = { year = 1926, month = Dec, day = 24 } , max = 15 }
     , { name = "明治", from = { year = 1868, month = Jan, day = 25 }, to = { year = 1912, month = Jul, day = 29 } , max = 45 }
     ]
+
+{-| This functions convert posix to Wareki(japanese-era):
+
+    toNengoFromPosix 0 == "昭和"
+    toNengoFromPosix 796303523000 == "平成"
+    toNengoFromPosix 1599909981000 == "令和"
+-}
+toNengoFromPosix : Time.Posix -> Result String String
+toNengoFromPosix posix =
+    let
+        d = Date.fromPosix Time.utc posix
+        wareki = List.filter (\w -> is w d) warekiList
+            |> List.head
+    in
+        case wareki of
+            Nothing ->
+                Err "Do not exists matched Wareki."
+            Just w ->
+                Ok w.name
 
 {-| This functions convert date-string to Wareki(japanese-era) string:
 

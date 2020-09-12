@@ -3,7 +3,7 @@
     "name": "shootacean/elm-wareki",
     "summary": "A convert date to wareki.",
     "license": "MIT",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "exposed-modules": [
         "Wareki"
     ],
